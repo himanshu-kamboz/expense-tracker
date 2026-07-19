@@ -2,6 +2,31 @@
 
 include "config.php";
 
+if (isset($_POST["login"])) {
+
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    $sql = "SELECT * FROM `login-data` WHERE email='$email'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+
+        $row = mysqli_fetch_assoc($result);
+
+        if (password_verify($password, $row["password"])) {
+
+            header("Location: dashboard.php");
+            exit();
+        } else {
+
+            echo "Wrong Password";
+        }
+    } else {
+
+        echo "Email Not Found";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,11 +64,11 @@ include "config.php";
                 </p>
             </div>
             <div id="form">
-                <form action="login.php" method="post">
+                <form method="post">
 
                     <div class="input-container">
                         <label for="username">Username</label>
-                        <input type="text" name="username" placeholder="Username" required>
+                        <input type="email" name="email" placeholder="Username" required>
                     </div>
 
                     <div class="input-container">
@@ -51,7 +76,7 @@ include "config.php";
                         <input type="password" name="password" placeholder="Password" required>
                     </div>
 
-                    <button class="btn" type="submit">Login</button>
+                    <button class="btn" name="login" type="submit">Login</button>
                 </form>
 
             </div>

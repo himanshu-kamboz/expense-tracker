@@ -2,6 +2,29 @@
 
 include "config.php";
 
+if (isset($_POST["submit"])) {
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $confirmPassword = $_POST["confirmPassword"];
+
+    if ($password !== $confirmPassword) {
+        die("Passwords do not match.");
+    }
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO `login-data`(`name`, `email`, `password`) VALUES ('$name','$email','$password')";
+
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        header("location: dashboard.php");
+        exit();
+    } else {
+        die("MySQL Error: " . mysqli_error($conn));
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +62,7 @@ include "config.php";
                 </p>
             </div>
             <div id="form">
-                <form action="login.php" method="post">
+                <form action="register.php" method="post">
 
                     <div class="input-container">
                         <label for="name">Full Name</label>
@@ -58,10 +81,10 @@ include "config.php";
 
                     <div class="input-container">
                         <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
                     </div>
 
-                    <button class="btn" type="submit">Login</button>
+                    <button class="btn" name="submit" type="submit">Register</button>
                 </form>
 
             </div>
