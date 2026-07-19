@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: poppins, sans-serif;
+}
+
+body {
+    background-color: #0B1120;
+}
+
+#container {
+    width: 50%;
+    height: auto;
+    margin: auto;
+    margin-top: 100px;
+    padding: 40px 30px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #031a3b;
+    box-shadow: 1px 0 4px #709cde, 1px 0 4px #506c97;
+    border-radius: 10px;
+}
+
+.text h2 {
+    color: white;
+}
+
+.eyebrow {
+    font-weight: 500;
+    margin-top: 10px;
+    width: 80%;
+    color: rgba(174, 131, 248, 0.5);
+}
+
+form label {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+form input {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    transition: .3s ease-in-out;
+}
+
+form input:hover {
+    background-color: rgb(162, 255, 255);
+}
+
+.tracker {
+    color: #7C3AED;
+}
+
+#form {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#login-form {
+    background-color: rgba(36, 36, 91, 0.646);
+    border: 3px solid #496997;
+    border-radius: 10px;
+}
+
+.login {
+    width: 40%;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #7C3AED;
+    color: white;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background-color: #5b1dbf;
+    cursor: pointer;
+}

@@ -10,6 +10,9 @@ include "config.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>login</title>
 </head>
@@ -18,33 +21,37 @@ include "config.php";
 
     <main id="container">
         <div id="login-text" class="login">
-            <div id="text-1">
-                <h1>Expense Tracker</h1>
-                <p>
-                    Track your expenses and manage your finances effectively with our user-friendly expense tracker application. Sign in to get started and take control of your spending habits today.
+            <div class="text" id="text-1">
+                <h2>Expense <span class="tracker">Tracker</span></h2>
+                <p class="eyebrow">
+                    Track your expenses and manage your finances effectively with our user-friendly expense tracker application.
                 </p>
             </div>
             <div id="login-img">
-                <img src="money.png" alt="login">
+                <img src="money.png" alt="login" height="200px">
             </div>
         </div>
         <div id="login-form" class="login">
-            <div id="text-2">
-                <h2>Welcome Back</h2>
-                <p>
+            <div class="text" id="text-2">
+                <h2><span class="tracker">Welcome </span>Back</h2>
+                <p class="eyebrow">
                     login your account.
                 </p>
             </div>
             <div id="form">
                 <form action="login.php" method="post">
 
-                    <label for="username">Username</label>
-                    <input type="text" name="username" placeholder="Username" required>
+                    <div class="input-container">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" placeholder="Username" required>
+                    </div>
 
-                    <label for="password">Password</label>
-                    <input type="password" name="password" placeholder="Password" required>
+                    <div class="input-container">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" placeholder="Password" required>
+                    </div>
 
-                    <button type="submit">Login</button>
+                    <button class="btn" type="submit">Login</button>
                 </form>
 
             </div>
