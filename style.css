@@ -12,7 +12,7 @@ body {
     width: 50%;
     height: auto;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 60px;
     padding: 40px 30px;
     display: flex;
     justify-content: center;
@@ -81,6 +81,7 @@ form input:hover {
 }
 
 .btn {
+    width: 100%;
     padding: 10px 15px;
     border-radius: 10px;
     border: none;
@@ -93,4 +94,14 @@ form input:hover {
 .btn:hover {
     background-color: #5b1dbf;
     cursor: pointer;
+}
+
+#register-now {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#register-now p {
+    color: white;
 }

@@ -9,12 +9,12 @@ include "config.php";
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>login</title>
+    <title>Register</title>
 </head>
 
 <body>
@@ -33,31 +33,37 @@ include "config.php";
         </div>
         <div id="login-form" class="login">
             <div class="text" id="text-2">
-                <h2><span class="tracker">Welcome </span>Back</h2>
+                <h2><span class="tracker">Create </span>Account</h2>
                 <p class="eyebrow">
-                    login your account.
+                    Fill all details to get started.
                 </p>
             </div>
             <div id="form">
                 <form action="login.php" method="post">
 
                     <div class="input-container">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" placeholder="Username" required>
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Full Name" required>
+                    </div>
+
+                    <div class="input-container">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Email" required>
                     </div>
 
                     <div class="input-container">
                         <label for="password">Password</label>
-                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                    </div>
+
+                    <div class="input-container">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
                     </div>
 
                     <button class="btn" type="submit">Login</button>
                 </form>
 
-            </div>
-
-            <div id="register-now">
-                <p>Don't have an account.? <a class="tracker" href="register.php">Register Now</a></p>
             </div>
 
         </div>
