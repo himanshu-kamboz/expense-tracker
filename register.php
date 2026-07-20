@@ -1,6 +1,6 @@
 <?php
 
-include "config.php";
+require_once "config.php";
 
 if (isset($_POST["submit"])) {
     $name = $_POST["name"];

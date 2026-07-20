@@ -1,6 +1,6 @@
 <?php
 
-include "config.php";
+require_once "config.php";
 
 if (isset($_POST["login"])) {
 
@@ -20,11 +20,11 @@ if (isset($_POST["login"])) {
             exit();
         } else {
 
-            echo "Wrong Password";
+            echo "<script> alert('wrong password')</script>";
         }
     } else {
 
-        echo "Email Not Found";
+        echo "<script> alert('Email Not Found')</script>";
     }
 }
 ?>
