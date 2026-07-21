@@ -74,7 +74,6 @@ require_once "config.php";
                                 <th>Type</th>
                                 <th>Category</th>
                                 <th>Amount</th>
-                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,19 +81,16 @@ require_once "config.php";
                                 <td>Income</td>
                                 <td>Salary</td>
                                 <td>$2,400</td>
-                                <td><span class="badge success">Completed</span></td>
                             </tr>
                             <tr>
                                 <td>Expense</td>
                                 <td>Groceries</td>
                                 <td>$84</td>
-                                <td><span class="badge warning">Pending</span></td>
                             </tr>
                             <tr>
                                 <td>Expense</td>
                                 <td>Travel</td>
                                 <td>$120</td>
-                                <td><span class="badge success">Completed</span></td>
                             </tr>
                         </tbody>
                     </table>

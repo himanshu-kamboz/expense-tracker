@@ -1,9 +1,23 @@
 <?php
 require_once "config.php";
+
+if (isset($_POST["save-income"])) {
+
+    $_source = trim($_POST["source"]);
+    $_amount = trim($_POST["amount"]);
+    $_date = trim($_POST["date"]);
+
+    $sql = "INSERT INTO income(source, amount, date)
+            VALUES ('$_source','$_amount','$_date')";
+
+    $result = mysqli_query($conn, $sql);
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +25,7 @@ require_once "config.php";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <title>Income | Expense Tracker</title>
 </head>
+
 <body>
     <div class="app-shell">
         <aside class="sidebar">
@@ -59,32 +74,48 @@ require_once "config.php";
             <section class="grid-2">
                 <div class="card">
                     <h3>Add income</h3>
-                    <form class="form-grid">
+                    <form class="form-grid" method="POST">
                         <div class="input-container">
                             <label for="source">Source</label>
-                            <input type="text" id="source" placeholder="Salary, freelance, bonus">
+                            <select name="source" id="source">
+                                <option>Salary</option>
+                                <option>Freelance</option>
+                                <option>Bonus</option>
+                            </select>
                         </div>
                         <div class="input-container">
                             <label for="amount">Amount</label>
-                            <input type="number" id="amount" placeholder="0.00">
+                            <input type="number" name="amount" id="amount" placeholder="0.00">
                         </div>
                         <div class="input-container">
                             <label for="date">Date</label>
-                            <input type="date" id="date">
+                            <input type="date" name="date" id="date">
                         </div>
-                        <button class="btn" type="button">Save income</button>
+                        <button class="btn" name="save-income" type="submit">Save income</button>
                     </form>
                 </div>
                 <div class="card table-card">
                     <h3>Recent income</h3>
                     <table class="table">
                         <thead>
-                            <tr><th>Source</th><th>Amount</th></tr>
+                            <tr>
+                                <th>Source</th>
+                                <th>Amount</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr><td>Salary</td><td>$2,400</td></tr>
-                            <tr><td>Freelance</td><td>$800</td></tr>
-                            <tr><td>Bonus</td><td>$300</td></tr>
+                            <tr>
+                                <td>Salary</td>
+                                <td>$2,400</td>
+                            </tr>
+                            <tr>
+                                <td>Freelance</td>
+                                <td>$800</td>
+                            </tr>
+                            <tr>
+                                <td>Bonus</td>
+                                <td>$300</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -92,4 +123,5 @@ require_once "config.php";
         </main>
     </div>
 </body>
+
 </html>
