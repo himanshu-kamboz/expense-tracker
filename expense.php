@@ -39,10 +39,9 @@ if (isset($_POST["save-expense"])) {
                     </div>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+                    <li class="active"><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
                     <li><a href="income.php"><i class="fa-solid fa-arrow-trend-up"></i>Income</a></li>
-                    <li class="active"><a href="expense.php"><i class="fa-solid fa-arrow-trend-down"></i>Expenses</a></li>
-                    <li><a href="budget.php"><i class="fa-solid fa-bullseye"></i>Budget</a></li>
+                    <li><a href="expense.php"><i class="fa-solid fa-arrow-trend-down"></i>Expenses</a></li>
                     <li><a href="reports.php"><i class="fa-solid fa-chart-pie"></i>Reports</a></li>
                     <li><a href="profile.php"><i class="fa-solid fa-user"></i>Profile</a></li>
                     <li><a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a></li>
@@ -54,7 +53,6 @@ if (isset($_POST["save-expense"])) {
         <main class="content">
             <div class="page-header">
                 <h2>Expense tracker</h2>
-                <span class="chip warning">$640 spent this week</span>
             </div>
 
             <section class="stats-grid">
@@ -65,10 +63,6 @@ if (isset($_POST["save-expense"])) {
                 <div class="card">
                     <h3>This month</h3>
                     <div class="value">$1,920</div>
-                </div>
-                <div class="card">
-                    <h3>Pending</h3>
-                    <div class="value">3</div>
                 </div>
             </section>
 

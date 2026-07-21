@@ -1,9 +1,38 @@
 <?php
 require_once "config.php";
+
+$sql = "SELECT 'Income' AS type,
+    source AS category,
+    amount
+FROM income
+
+UNION ALL
+
+SELECT 'Expense' AS type,
+    category,
+    amount
+FROM expense";
+
+$incomeQuery = "SELECT SUM(amount) AS total_income FROM income ";
+$incomeResult = mysqli_query($conn, $incomeQuery);
+$incomeRow = mysqli_fetch_assoc($incomeResult);
+
+$totalIncome = $incomeRow['total_income'];
+
+$expenseQuery = "SELECT SUM(amount) AS total_expense FROM expense ";
+$expenseResult = mysqli_query($conn, $expenseQuery);
+$expenseRow = mysqli_fetch_assoc($expenseResult);
+
+$totalExpense = $expenseRow['total_expense'];
+
+$balance = $totalIncome - $totalExpense;
+
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +40,7 @@ require_once "config.php";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <title>Dashboard | Expense Tracker</title>
 </head>
+
 <body>
     <div class="app-shell">
         <aside class="sidebar">
@@ -26,7 +56,6 @@ require_once "config.php";
                     <li class="active"><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
                     <li><a href="income.php"><i class="fa-solid fa-arrow-trend-up"></i>Income</a></li>
                     <li><a href="expense.php"><i class="fa-solid fa-arrow-trend-down"></i>Expenses</a></li>
-                    <li><a href="budget.php"><i class="fa-solid fa-bullseye"></i>Budget</a></li>
                     <li><a href="reports.php"><i class="fa-solid fa-chart-pie"></i>Reports</a></li>
                     <li><a href="profile.php"><i class="fa-solid fa-user"></i>Profile</a></li>
                     <li><a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a></li>
@@ -41,24 +70,23 @@ require_once "config.php";
                     <h1>Good morning</h1>
                     <p>Here’s a quick snapshot of your finances.</p>
                 </div>
-                <span class="chip success">+12% this month</span>
             </div>
 
             <section class="stats-grid">
                 <div class="card">
                     <h3>Net balance</h3>
                     <p>Available after bills</p>
-                    <div class="value">$3,280</div>
+                    <div class="value">₹<?= number_format($balance, 2) ?></div>
                 </div>
                 <div class="card">
                     <h3>Monthly income</h3>
                     <p>Expected this month</p>
-                    <div class="value">$5,200</div>
+                    <div class="value">₹<?= number_format($totalIncome, 2) ?></div>
                 </div>
                 <div class="card">
                     <h3>Monthly expenses</h3>
                     <p>Current spending</p>
-                    <div class="value">$1,920</div>
+                    <div class="value">₹<?= number_format($totalExpense, 2) ?></div>
                 </div>
             </section>
 
@@ -77,21 +105,18 @@ require_once "config.php";
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Income</td>
-                                <td>Salary</td>
-                                <td>$2,400</td>
-                            </tr>
-                            <tr>
-                                <td>Expense</td>
-                                <td>Groceries</td>
-                                <td>$84</td>
-                            </tr>
-                            <tr>
-                                <td>Expense</td>
-                                <td>Travel</td>
-                                <td>$120</td>
-                            </tr>
+                            <?php
+
+                            while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                <tr>
+                                    <td><?= $row["type"] ?></td>
+                                    <td><?= $row["category"] ?></td>
+                                    <td>₹<?= $row["amount"] ?></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -117,4 +142,5 @@ require_once "config.php";
         </main>
     </div>
 </body>
+
 </html>

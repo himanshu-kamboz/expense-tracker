@@ -10,9 +10,10 @@ if (isset($_POST["save-income"])) {
     $sql = "INSERT INTO income(source, amount, date)
             VALUES ('$_source','$_amount','$_date')";
 
-    $result = mysqli_query($conn, $sql);
+    mysqli_query($conn, $sql);
 }
-
+$sql = "SELECT * FROM income";
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -38,10 +39,9 @@ if (isset($_POST["save-income"])) {
                     </div>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
-                    <li class="active"><a href="income.php"><i class="fa-solid fa-arrow-trend-up"></i>Income</a></li>
+                    <li class="active"><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+                    <li><a href="income.php"><i class="fa-solid fa-arrow-trend-up"></i>Income</a></li>
                     <li><a href="expense.php"><i class="fa-solid fa-arrow-trend-down"></i>Expenses</a></li>
-                    <li><a href="budget.php"><i class="fa-solid fa-bullseye"></i>Budget</a></li>
                     <li><a href="reports.php"><i class="fa-solid fa-chart-pie"></i>Reports</a></li>
                     <li><a href="profile.php"><i class="fa-solid fa-user"></i>Profile</a></li>
                     <li><a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a></li>
@@ -53,17 +53,12 @@ if (isset($_POST["save-income"])) {
         <main class="content">
             <div class="page-header">
                 <h2>Income overview</h2>
-                <span class="chip success">+ $1,200 this month</span>
             </div>
 
             <section class="stats-grid">
                 <div class="card">
                     <h3>Total income</h3>
                     <div class="value">$5,200</div>
-                </div>
-                <div class="card">
-                    <h3>Recurring</h3>
-                    <div class="value">$3,400</div>
                 </div>
                 <div class="card">
                     <h3>One-time</h3>
@@ -104,18 +99,17 @@ if (isset($_POST["save-income"])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Salary</td>
-                                <td>$2,400</td>
-                            </tr>
-                            <tr>
-                                <td>Freelance</td>
-                                <td>$800</td>
-                            </tr>
-                            <tr>
-                                <td>Bonus</td>
-                                <td>$300</td>
-                            </tr>
+                            <?php
+
+                            while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                <tr>
+                                    <td><?= $row["source"] ?></td>
+                                    <td>₹<?= $row["amount"] ?></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
