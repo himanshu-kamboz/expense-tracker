@@ -3,7 +3,6 @@
 require_once "config.php";
 
 if (isset($_POST["login"])) {
-
     $email = $_POST["email"];
     $password = $_POST["password"];
 
@@ -11,20 +10,16 @@ if (isset($_POST["login"])) {
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
-
         $row = mysqli_fetch_assoc($result);
 
         if (password_verify($password, $row["password"])) {
-
             header("Location: dashboard.php");
             exit();
         } else {
-
-            echo "<script> alert('wrong password')</script>";
+            echo "<script>alert('Wrong password')</script>";
         }
     } else {
-
-        echo "<script> alert('Email Not Found')</script>";
+        echo "<script>alert('Email not found')</script>";
     }
 }
 ?>
@@ -39,55 +34,40 @@ if (isset($_POST["login"])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>login</title>
+    <title>Login | Expense Tracker</title>
 </head>
 
 <body>
+    <main class="auth-page">
+        <section class="auth-card">
+            <div class="auth-illustration">
+                <span class="badge">Smart money planning</span>
+                <h1>Manage your expenses with clarity.</h1>
+                <p>Track income, monitor spending, and stay on top of your financial goals in one place.</p>
 
-    <main id="container">
-        <div id="login-text" class="login">
-            <div class="text" id="text-1">
-                <h2>Expense <span class="tracker">Tracker</span></h2>
-                <p class="eyebrow">
-                    Track your expenses and manage your finances effectively with our user-friendly expense tracker application.
-                </p>
+                <div id="login-img">
+                    <img src="money.png" alt="login" height="200px">
+                </div>
+
             </div>
-            <div id="login-img">
-                <img src="money.png" alt="login" height="200px">
-            </div>
-        </div>
-        <div id="login-form" class="login">
-            <div class="text" id="text-2">
-                <h2><span class="tracker">Welcome </span>Back</h2>
-                <p class="eyebrow">
-                    login your account.
-                </p>
-            </div>
-            <div id="form">
+            <div class="auth-form">
+                <h2>Welcome back</h2>
+                <p class="eyebrow">Sign in to access your dashboard.</p>
                 <form method="post">
-
                     <div class="input-container">
-                        <label for="username">Username</label>
-                        <input type="email" name="email" placeholder="Username" required>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
                     </div>
-
                     <div class="input-container">
                         <label for="password">Password</label>
-                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
                     </div>
-
                     <button class="btn" name="login" type="submit">Login</button>
                 </form>
-
+                <p class="text-link">Don’t have an account? <a class="tracker" href="register.php">Create one</a></p>
             </div>
-
-            <div id="register-now">
-                <p>Don't have an account.? <a class="tracker" href="register.php">Register Now</a></p>
-            </div>
-
-        </div>
+        </section>
     </main>
-
 </body>
 
 </html>

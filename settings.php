@@ -9,7 +9,7 @@ require_once "config.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-    <title>Reports | Expense Tracker</title>
+    <title>Settings | Expense Tracker</title>
 </head>
 <body>
     <div class="app-shell">
@@ -27,9 +27,9 @@ require_once "config.php";
                     <li><a href="income.php"><i class="fa-solid fa-arrow-trend-up"></i>Income</a></li>
                     <li><a href="expense.php"><i class="fa-solid fa-arrow-trend-down"></i>Expenses</a></li>
                     <li><a href="budget.php"><i class="fa-solid fa-bullseye"></i>Budget</a></li>
-                    <li class="active"><a href="reports.php"><i class="fa-solid fa-chart-pie"></i>Reports</a></li>
+                    <li><a href="reports.php"><i class="fa-solid fa-chart-pie"></i>Reports</a></li>
                     <li><a href="profile.php"><i class="fa-solid fa-user"></i>Profile</a></li>
-                    <li><a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a></li>
+                    <li class="active"><a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a></li>
                 </ul>
             </div>
             <a href="logout.php" class="logout"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
@@ -37,29 +37,31 @@ require_once "config.php";
 
         <main class="content">
             <div class="page-header">
-                <h2>Financial reports</h2>
-                <span class="chip success">Updated today</span>
+                <h2>Preferences</h2>
+                <span class="chip warning">Two-factor off</span>
             </div>
 
-            <section class="stats-grid">
-                <div class="card">
-                    <h3>Spending trend</h3>
-                    <div class="value">-8%</div>
+            <section class="card form-grid">
+                <div class="input-container">
+                    <label for="currency">Currency</label>
+                    <select id="currency">
+                        <option>USD</option>
+                        <option>EUR</option>
+                        <option>GBP</option>
+                    </select>
                 </div>
-                <div class="card">
-                    <h3>Savings rate</h3>
-                    <div class="value">36%</div>
+                <div class="input-container">
+                    <label for="theme">Theme</label>
+                    <select id="theme">
+                        <option>Dark</option>
+                        <option>Light</option>
+                    </select>
                 </div>
-                <div class="card">
-                    <h3>Goal progress</h3>
-                    <div class="value">72%</div>
+                <div class="input-container">
+                    <label for="notes">Reminder note</label>
+                    <textarea id="notes" rows="4" placeholder="Add a note for your monthly review."></textarea>
                 </div>
-            </section>
-
-            <section class="card">
-                <h3>Monthly summary</h3>
-                <p>Your savings reached a healthy level this month. You are staying under your planned category limits.</p>
-                <div class="empty-state">Charts and deeper analysis can be added here once your data grows.</div>
+                <button class="btn" type="button">Save settings</button>
             </section>
         </main>
     </div>
