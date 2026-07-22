@@ -1,9 +1,47 @@
 <?php
 require_once "config.php";
+
+
+session_start();
+
+if (!isset($_SESSION["user"])) {
+    header("Location: index.php");
+    exit();
+}
+
+$email = $_SESSION["email"];
+
+$sql = "SELECT * FROM `login-data` WHERE email='$email'";
+$result = mysqli_query($conn, $sql);
+$user = mysqli_fetch_assoc($result);
+
+if (isset($_POST["update-profile"])) {
+
+    $name = trim($_POST["name"]);
+    $email = trim($_POST["email"]);
+    $oldEmail = $_SESSION["email"];
+
+    $sql = "UPDATE `login-data`
+            SET name='$name', email='$email'
+            WHERE email='$oldEmail'";
+
+    if (mysqli_query($conn, $sql)) {
+
+        $_SESSION["user"] = $name;
+        $_SESSION["email"] = $email;
+
+        echo "<script>alert('Profile Updated Successfully');</script>";
+
+    } else {
+        echo "<script>alert('Something went wrong');</script>";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +49,7 @@ require_once "config.php";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <title>Profile | Expense Tracker</title>
 </head>
+
 <body>
     <div class="app-shell">
         <aside class="sidebar">
@@ -42,26 +81,28 @@ require_once "config.php";
 
             <section class="card profile-card">
                 <div style="display:flex; align-items:center; gap:16px;">
-                    <div class="avatar">JD</div>
+                    <div class="avatar"> <?= strtoupper(substr($user['name'], 0, 1)); ?></div>
                     <div>
-                        <h3>Jordan Doe</h3>
-                        <p>jordan@example.com</p>
+                        <h3><?= $user['name']; ?></h3>
+                        <p><?= $user['email']; ?></p>
                     </div>
                 </div>
 
-                <form class="form-grid">
+                <form class="form-grid" method="POST">
                     <div class="input-container">
                         <label for="fullName">Full name</label>
-                        <input type="text" id="fullName" value="Jordan Doe">
+                        <input type="text" name="name" id="fullName" value="<?= $user['name']; ?>">
                     </div>
                     <div class="input-container">
                         <label for="email">Email</label>
-                        <input type="email" id="email" value="jordan@example.com">
+                        <input type="email" name="email" id="email" value="<?= $user['email']; ?>">
                     </div>
-                    <button class="btn" type="button">Update profile</button>
+                    <button class="btn" type="submit" name="update-profile">Update profile</button>
                 </form>
             </section>
+
         </main>
     </div>
 </body>
+
 </html>

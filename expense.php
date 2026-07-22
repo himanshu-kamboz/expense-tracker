@@ -1,6 +1,13 @@
 <?php
-require_once "config.php";
 
+session_start();
+
+if (!isset($_SESSION["user"])) {
+    header("Location: index.php");
+    exit();
+}
+
+require_once "config.php";
 
 if (isset($_POST["save-expense"])) {
 
@@ -11,8 +18,22 @@ if (isset($_POST["save-expense"])) {
     $sql = "INSERT INTO expense(description, amount, category)
             VALUES ('$_description','$_amount','$_category')";
 
-    $result = mysqli_query($conn, $sql);
+    mysqli_query($conn, $sql);
 }
+
+$latestQuery = "SELECT amount FROM income ORDER BY id DESC LIMIT 1";
+$latestResult = mysqli_query($conn, $latestQuery);
+$latestRow = mysqli_fetch_assoc($latestResult);
+
+$sql = "SELECT * FROM expense ORDER BY id DESC";
+$result = mysqli_query($conn, $sql);
+
+
+$expenseQuery = "SELECT SUM(amount) AS total_expense FROM expense ";
+$expenseResult = mysqli_query($conn, $expenseQuery);
+$expenseRow = mysqli_fetch_assoc($expenseResult);
+
+$totalExpense = $expenseRow['total_expense'];
 
 ?>
 
@@ -57,12 +78,12 @@ if (isset($_POST["save-expense"])) {
 
             <section class="stats-grid">
                 <div class="card">
-                    <h3>Today</h3>
-                    <div class="value">$42</div>
+                    <h3>Total Expense</h3>
+                    <div class="value">₹<?= number_format($totalExpense, 2) ?> </div>
                 </div>
                 <div class="card">
-                    <h3>This month</h3>
-                    <div class="value">$1,920</div>
+                    <h3>Latest Expense</h3>
+                    <div class="value">₹<?= $latestRow['amount']?></div>
                 </div>
             </section>
 
@@ -100,18 +121,17 @@ if (isset($_POST["save-expense"])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Groceries</td>
-                                <td>$84</td>
-                            </tr>
-                            <tr>
-                                <td>Fuel</td>
-                                <td>$38</td>
-                            </tr>
-                            <tr>
-                                <td>Streaming</td>
-                                <td>$14</td>
-                            </tr>
+                            <?php
+
+                            while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                <tr>
+                                    <td><?= $row["category"] ?></td>
+                                    <td>₹<?= number_format($row["amount"]) ?></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>

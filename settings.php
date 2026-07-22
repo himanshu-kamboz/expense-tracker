@@ -1,9 +1,18 @@
 <?php
 require_once "config.php";
+
+
+session_start();
+
+if (!isset($_SESSION["user"])) {
+    header("Location: index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +20,7 @@ require_once "config.php";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <title>Settings | Expense Tracker</title>
 </head>
+
 <body>
     <div class="app-shell">
         <aside class="sidebar">
@@ -65,4 +75,5 @@ require_once "config.php";
         </main>
     </div>
 </body>
+
 </html>

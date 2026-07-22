@@ -1,6 +1,14 @@
 <?php
 require_once "config.php";
 
+session_start();
+
+if (!isset($_SESSION["user"])) {
+    header("Location: index.php");
+    exit();
+}
+
+
 if (isset($_POST["save-income"])) {
 
     $_source = trim($_POST["source"]);
@@ -18,6 +26,10 @@ $incomeResult = mysqli_query($conn, $incomeQuery);
 $incomeRow = mysqli_fetch_assoc($incomeResult);
 
 $totalIncome = $incomeRow['total_income'] ?? 0;
+
+$latestQuery = "SELECT amount FROM income ORDER BY id DESC LIMIT 1";
+$latestResult = mysqli_query($conn, $latestQuery);
+$latestRow = mysqli_fetch_assoc($latestResult);
 
 $sql = "SELECT * FROM income";
 $result = mysqli_query($conn, $sql);
@@ -68,8 +80,8 @@ $result = mysqli_query($conn, $sql);
                     <div class="value">₹<?= number_format($totalIncome, 2) ?></div>
                 </div>
                 <div class="card">
-                    <h3>One-time</h3>
-                    <div class="value">$1,800</div>
+                    <h3>Latest Income</h3>
+                    <div class="value">₹<?= $latestRow['amount'] ?? 0; ?></div>
                 </div>
             </section>
 
