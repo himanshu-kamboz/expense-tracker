@@ -400,7 +400,113 @@ a {
     font-weight: 700;
 }
 
+body.dark {
+    background: linear-gradient(135deg, #020617, #111827);
+    color: #e2e8f0;
+}
+
+body.dark .sidebar {
+    background: rgba(2, 6, 23, .96);
+}
+
+body.dark .card {
+    background: rgba(15, 23, 42, .92);
+}
+
+body.dark .content {
+    background: transparent;
+}
+
+body.light {
+    background: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+body.light .app-shell {
+    background: #f3f4f6;
+}
+
+body.light .sidebar {
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+}
+
+body.light .content {
+    background: #f3f4f6;
+}
+
+body.light .card {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+}
+
+body.light .logo h2,
+body.light .page-header h2,
+body.light .topbar h1,
+body.light .card h3,
+body.light .card h4,
+body.light .value {
+    color: #111827;
+}
+
+body.light .logo span {
+    color: #7c3aed;
+}
+
+body.light .nav-links li a {
+    color: #374151;
+}
+
+body.light .nav-links li.active a,
+body.light .nav-links li:hover a {
+    color: #ffffff;
+}
+
+body.light p,
+body.light td,
+body.light th,
+body.light label {
+    color: #4b5563;
+}
+
+body.light input,
+body.light select,
+body.light textarea {
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid #d1d5db;
+}
+
+body.light .table td,
+body.light .table th {
+    border-color: #e5e7eb;
+}
+
+body.light .logout {
+    color: #ef4444;
+}
+
+body.light .content{
+    background:#f3f4f6 !important;
+}
+
+body.light .sidebar{
+    background:#ffffff !important;
+}
+
+body.light .card{
+    background:#ffffff !important;
+}
+
+body.light input,
+body.light select{
+    background:#ffffff !important;
+    color:#111827 !important;
+}
+
 @media (max-width: 960px) {
+
     .auth-card,
     .grid-2 {
         grid-template-columns: 1fr;

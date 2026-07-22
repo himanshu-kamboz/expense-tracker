@@ -34,11 +34,11 @@ if (isset($_POST["submit"])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <title>Register | Expense Tracker</title>
 </head>
 
-<body>
+<body class="dark">
     <main class="auth-page">
         <section class="auth-card">
             <div class="auth-illustration">
@@ -77,6 +77,7 @@ if (isset($_POST["submit"])) {
             </div>
         </section>
     </main>
+    <script src="main.js"></script>
 </body>
 
 </html>
