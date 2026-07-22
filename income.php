@@ -12,6 +12,13 @@ if (isset($_POST["save-income"])) {
 
     mysqli_query($conn, $sql);
 }
+
+$incomeQuery = "SELECT SUM(amount) AS total_income FROM income ";
+$incomeResult = mysqli_query($conn, $incomeQuery);
+$incomeRow = mysqli_fetch_assoc($incomeResult);
+
+$totalIncome = $incomeRow['total_income'] ?? 0;
+
 $sql = "SELECT * FROM income";
 $result = mysqli_query($conn, $sql);
 ?>
@@ -39,8 +46,8 @@ $result = mysqli_query($conn, $sql);
                     </div>
                 </div>
                 <ul class="nav-links">
-                    <li class="active"><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
-                    <li><a href="income.php"><i class="fa-solid fa-arrow-trend-up"></i>Income</a></li>
+                    <li><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+                    <li class="active"><a href="income.php"><i class="fa-solid fa-arrow-trend-up"></i>Income</a></li>
                     <li><a href="expense.php"><i class="fa-solid fa-arrow-trend-down"></i>Expenses</a></li>
                     <li><a href="reports.php"><i class="fa-solid fa-chart-pie"></i>Reports</a></li>
                     <li><a href="profile.php"><i class="fa-solid fa-user"></i>Profile</a></li>
@@ -58,7 +65,7 @@ $result = mysqli_query($conn, $sql);
             <section class="stats-grid">
                 <div class="card">
                     <h3>Total income</h3>
-                    <div class="value">$5,200</div>
+                    <div class="value">₹<?= number_format($totalIncome, 2) ?></div>
                 </div>
                 <div class="card">
                     <h3>One-time</h3>

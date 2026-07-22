@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once "config.php";
 
@@ -13,6 +14,8 @@ if (isset($_POST["login"])) {
         $row = mysqli_fetch_assoc($result);
 
         if (password_verify($password, $row["password"])) {
+            $_SESSION["user"] = $username;
+
             header("Location: dashboard.php");
             exit();
         } else {

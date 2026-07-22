@@ -23,10 +23,10 @@ require_once "config.php";
                     </div>
                 </div>
                 <ul class="nav-links">
-                    <li class="active"><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+                    <li><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
                     <li><a href="income.php"><i class="fa-solid fa-arrow-trend-up"></i>Income</a></li>
                     <li><a href="expense.php"><i class="fa-solid fa-arrow-trend-down"></i>Expenses</a></li>
-                    <li><a href="reports.php"><i class="fa-solid fa-chart-pie"></i>Reports</a></li>
+                    <li class="active"><a href="reports.php"><i class="fa-solid fa-chart-pie"></i>Reports</a></li>
                     <li><a href="profile.php"><i class="fa-solid fa-user"></i>Profile</a></li>
                     <li><a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a></li>
                 </ul>
