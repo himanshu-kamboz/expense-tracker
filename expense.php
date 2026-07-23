@@ -8,28 +8,32 @@ if (!isset($_SESSION["user"])) {
 }
 
 require_once "config.php";
+$user_id = $_SESSION["id"];
 
 if (isset($_POST["save-expense"])) {
 
     $_description = trim($_POST["description"]);
     $_amount = trim($_POST["amount"]);
     $_category = trim($_POST["category"]);
+    $_date = trim($_POST["date"]);
 
-    $sql = "INSERT INTO expense(description, amount, category)
-            VALUES ('$_description','$_amount','$_category')";
+
+
+    $sql = "INSERT INTO expense(user_id, description, amount, category, date)
+VALUES('$user_id','$_description','$_amount','$_category','$_date')";
 
     mysqli_query($conn, $sql);
 }
 
-$latestQuery = "SELECT amount FROM income ORDER BY id DESC LIMIT 1";
+$latestQuery = "SELECT amount FROM expense WHERE user_id = '$user_id' ORDER BY id DESC LIMIT 1";
 $latestResult = mysqli_query($conn, $latestQuery);
 $latestRow = mysqli_fetch_assoc($latestResult);
 
-$sql = "SELECT * FROM expense ORDER BY id DESC";
+$sql = "SELECT * FROM expense WHERE user_id = '$user_id' ORDER BY id DESC";
 $result = mysqli_query($conn, $sql);
 
 
-$expenseQuery = "SELECT SUM(amount) AS total_expense FROM expense ";
+$expenseQuery = "SELECT SUM(amount) AS total_expense FROM expense WHERE user_id = '$user_id' ";
 $expenseResult = mysqli_query($conn, $expenseQuery);
 $expenseRow = mysqli_fetch_assoc($expenseResult);
 
@@ -83,7 +87,7 @@ $totalExpense = $expenseRow['total_expense'];
                 </div>
                 <div class="card">
                     <h3>Latest Expense</h3>
-                    <div class="value">₹<?= $latestRow['amount']?></div>
+                    <div class="value">₹<?= $latestRow['amount'] ?? 0 ?></div>
                 </div>
             </section>
 
@@ -91,6 +95,9 @@ $totalExpense = $expenseRow['total_expense'];
                 <div class="card">
                     <h3>Log an expense</h3>
                     <form class="form-grid" method="POST">
+                        <div class="input-container">
+                            <input type="hidden" name="user_id" id="user_id">
+                        </div>
                         <div class="input-container">
                             <label for="name">Description</label>
                             <input type="text" name="description" id="name" placeholder="Groceries, rent, commute">
@@ -107,6 +114,10 @@ $totalExpense = $expenseRow['total_expense'];
                                 <option>Utilities</option>
                                 <option>Entertainment</option>
                             </select>
+                        </div>
+                        <div class="input-container">
+                            <label>Date</label>
+                            <input type="date" name="date" required>
                         </div>
                         <button class="btn" name="save-expense" type="submit">Save expense</button>
                     </form>

@@ -10,8 +10,9 @@ if (!isset($_SESSION["user"])) {
 }
 
 $email = $_SESSION["email"];
+$user_id = $_SESSION["id"];
 
-$sql = "SELECT * FROM `login-data` WHERE email='$email'";
+$sql = "SELECT * FROM `login-data` WHERE id = '$user_id' and email='$email'";
 $result = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($result);
 
@@ -23,7 +24,7 @@ if (isset($_POST["update-profile"])) {
 
     $sql = "UPDATE `login-data`
             SET name='$name', email='$email'
-            WHERE email='$oldEmail'";
+            WHERE id = '$user_id' and email='$oldEmail'";
 
     if (mysqli_query($conn, $sql)) {
 

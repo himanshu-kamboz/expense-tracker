@@ -400,6 +400,10 @@ a {
     font-weight: 700;
 }
 
+#doughnutChart {
+    height: 200px;
+}
+
 body.dark {
     background: linear-gradient(135deg, #020617, #111827);
     color: #e2e8f0;

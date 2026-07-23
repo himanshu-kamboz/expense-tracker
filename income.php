@@ -15,23 +15,28 @@ if (isset($_POST["save-income"])) {
     $_amount = trim($_POST["amount"]);
     $_date = trim($_POST["date"]);
 
-    $sql = "INSERT INTO income(source, amount, date)
-            VALUES ('$_source','$_amount','$_date')";
+    $user_id = $_SESSION["id"];
+
+    $sql = "INSERT INTO income(user_id, source, amount, date)
+    VALUES ('$user_id','$_source','$_amount','$_date')";
 
     mysqli_query($conn, $sql);
 }
 
-$incomeQuery = "SELECT SUM(amount) AS total_income FROM income ";
+$user_id = $_SESSION["id"];
+
+
+$incomeQuery = "SELECT SUM(amount) AS total_income FROM income WHERE user_id='$user_id'";
 $incomeResult = mysqli_query($conn, $incomeQuery);
 $incomeRow = mysqli_fetch_assoc($incomeResult);
 
 $totalIncome = $incomeRow['total_income'] ?? 0;
 
-$latestQuery = "SELECT amount FROM income ORDER BY id DESC LIMIT 1";
+$latestQuery = "SELECT amount FROM income WHERE user_id='$user_id' ORDER BY id DESC LIMIT 1";
 $latestResult = mysqli_query($conn, $latestQuery);
 $latestRow = mysqli_fetch_assoc($latestResult);
 
-$sql = "SELECT * FROM income";
+$sql = "SELECT * FROM income where user_id = '$user_id'";
 $result = mysqli_query($conn, $sql);
 ?>
 

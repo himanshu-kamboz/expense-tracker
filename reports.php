@@ -9,14 +9,15 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
+$user_id = $_SESSION["id"];
 
-$incomeQuery = "SELECT SUM(amount) AS total_income FROM income ";
+$incomeQuery = "SELECT SUM(amount) AS total_income FROM income WHERE user_id = '$user_id'";
 $incomeResult = mysqli_query($conn, $incomeQuery);
 $incomeRow = mysqli_fetch_assoc($incomeResult);
 
 $totalIncome = $incomeRow['total_income'] ?? 0;;
 
-$expenseQuery = "SELECT SUM(amount) AS total_expense FROM expense ";
+$expenseQuery = "SELECT SUM(amount) AS total_expense FROM expense WHERE user_id = '$user_id'";
 $expenseResult = mysqli_query($conn, $expenseQuery);
 $expenseRow = mysqli_fetch_assoc($expenseResult);
 
@@ -26,22 +27,22 @@ $balance = $totalIncome - $totalExpense;
 
 $incomeCount = mysqli_fetch_assoc(mysqli_query(
     $conn,
-    "SELECT COUNT(*) AS total FROM income"
+    "SELECT COUNT(*) AS total FROM income WHERE user_id = '$user_id'"
 ))['total'];
 
 $expenseCount = mysqli_fetch_assoc(mysqli_query(
     $conn,
-    "SELECT COUNT(*) AS total FROM expense"
+    "SELECT COUNT(*) AS total FROM expense WHERE user_id = '$user_id'"
 ))['total'];
 
 $incomeData = mysqli_query(
     $conn,
-    "SELECT source, amount, date FROM income ORDER BY id DESC LIMIT 10"
+    "SELECT source, amount, date FROM income WHERE user_id = '$user_id' ORDER BY id DESC LIMIT 10"
 );
 
 $expenseData = mysqli_query(
     $conn,
-    "SELECT category, amount FROM expense ORDER BY id DESC LIMIT 10"
+    "SELECT category, amount FROM expense WHERE user_id = '$user_id' ORDER BY id DESC LIMIT 10"
 );
 
 $expensePercentage = 0;
@@ -55,7 +56,57 @@ $savingsPercentage = 0;
 if ($totalIncome > 0) {
     $savingsPercentage = (($totalIncome - $totalExpense) / $totalIncome) * 100;
 }
+
+$incomeChart = mysqli_query($conn, "
+SELECT DATE_FORMAT(date,'%b') AS month,
+SUM(amount) AS total
+FROM income
+WHERE user_id='$user_id'
+GROUP BY MONTH(date)
+ORDER BY MONTH(date)
+");
+
+$months = [];
+$incomeChartData = [];
+
+while ($row = mysqli_fetch_assoc($incomeChart)) {
+    $months[] = $row["month"];
+    $incomeChartData[] = $row["total"];
+}
+
+$expenseChart = mysqli_query($conn, "
+SELECT DATE_FORMAT(date,'%b') AS month,
+SUM(amount) AS total
+FROM expense
+WHERE user_id='$user_id'
+GROUP BY MONTH(date)
+ORDER BY MONTH(date)
+");
+
+$expenseChartData = [];
+
+while ($row = mysqli_fetch_assoc($expenseChart)) {
+    $expenseChartData[] = $row["total"];
+}
+
+$categoryChart = mysqli_query($conn, "
+SELECT category,
+SUM(amount) AS total
+FROM expense
+WHERE user_id='$user_id'
+GROUP BY category
+");
+
+$categoryLabels = [];
+$categoryTotals = [];
+
+while ($row = mysqli_fetch_assoc($categoryChart)) {
+    $categoryLabels[] = $row["category"];
+    $categoryTotals[] = $row["total"];
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -215,16 +266,16 @@ if ($totalIncome > 0) {
             </section>
         </main>
     </div>
-    
+
     <script src="main.js"></script>
     <script>
         new Chart(document.getElementById("lineChart"), {
             type: "line",
             data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                labels: <?= json_encode($months); ?>,
                 datasets: [{
                         label: "Income",
-                        data: [12000, 18000, 15000, 22000, 25000, 28000],
+                        data: <?= json_encode($incomeChartData); ?>,
                         borderColor: "#22c55e",
                         backgroundColor: "rgba(34,197,94,0.15)",
                         fill: true,
@@ -232,7 +283,7 @@ if ($totalIncome > 0) {
                     },
                     {
                         label: "Expense",
-                        data: [8000, 12000, 9000, 14000, 17000, 19000],
+                        data: <?= json_encode($expenseChartData); ?>,
                         borderColor: "#ef4444",
                         backgroundColor: "rgba(239,68,68,0.15)",
                         fill: true,
@@ -267,9 +318,9 @@ if ($totalIncome > 0) {
         new Chart(document.getElementById("doughnutChart"), {
             type: "doughnut",
             data: {
-                labels: ["Food", "Travel", "Shopping", "Bills", "Entertainment"],
+                labels: <?= json_encode($categoryLabels); ?>,
                 datasets: [{
-                    data: [5000, 2500, 4000, 3500, 2000],
+                    data: <?= json_encode($categoryTotals); ?>,
                     backgroundColor: [
                         "#22c55e",
                         "#3b82f6",

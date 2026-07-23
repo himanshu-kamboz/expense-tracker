@@ -10,8 +10,9 @@ if (!isset($_SESSION["user"])) {
 }
 
 $email = $_SESSION["email"];
+$user_id = $_SESSION["id"];
 
-$sql = "SELECT * FROM `login-data` WHERE email='$email'";
+$sql = "SELECT * FROM `login-data` WHERE id = '$user_id' and email='$email'";
 $result = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($result);
 
@@ -33,7 +34,7 @@ if (isset($_POST["change-password"])) {
 
         $update = "UPDATE `login-data`
                    SET password='$newHash'
-                   WHERE email='$email'";
+                   WHERE id = '$user_id' and email='$email'";
 
         if (mysqli_query($conn, $update)) {
 
@@ -119,24 +120,6 @@ if (isset($_POST["change-password"])) {
                         </button>
 
                     </form>
-                </div>
-
-                <div class="card">
-
-                    <h3>Notifications</h3>
-
-                    <label>
-                        <input type="checkbox" checked>
-                        Email Notifications
-                    </label>
-
-                    <br><br>
-
-                    <label>
-                        <input type="checkbox">
-                        Monthly Report
-                    </label>
-
                 </div>
 
                 <div class="card">

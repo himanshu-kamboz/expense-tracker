@@ -9,25 +9,27 @@ if (!isset($_SESSION["user"])) {
 
 require_once "config.php";
 
+$user_id = $_SESSION["id"];
+
 $sql = "SELECT 'Income' AS type,
     source AS category,
     amount
-FROM income
+FROM income WHERE user_id = '$user_id'
 
 UNION ALL
 
 SELECT 'Expense' AS type,
     category,
     amount
-FROM expense";
+FROM expense WHERE user_id = '$user_id'";
 
-$incomeQuery = "SELECT SUM(amount) AS total_income FROM income ";
+$incomeQuery = "SELECT SUM(amount) AS total_income FROM income WHERE user_id = '$user_id' ";
 $incomeResult = mysqli_query($conn, $incomeQuery);
 $incomeRow = mysqli_fetch_assoc($incomeResult);
 
 $totalIncome = $incomeRow['total_income'];
 
-$expenseQuery = "SELECT SUM(amount) AS total_expense FROM expense ";
+$expenseQuery = "SELECT SUM(amount) AS total_expense FROM expense WHERE user_id = '$user_id'";
 $expenseResult = mysqli_query($conn, $expenseQuery);
 $expenseRow = mysqli_fetch_assoc($expenseResult);
 
@@ -36,6 +38,31 @@ $totalExpense = $expenseRow['total_expense'];
 $balance = $totalIncome - $totalExpense;
 
 $result = mysqli_query($conn, $sql);
+
+$totalExpense = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT SUM(amount) AS total FROM expense WHERE user_id = '$user_id'")
+)['total'] ?? 0;
+
+$food = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT SUM(amount) AS total FROM expense  WHERE user_id = '$user_id' and category='Food'")
+)['total'] ?? 0;
+
+$travel = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT SUM(amount) AS total FROM expense WHERE user_id = '$user_id' and category='Travel'")
+)['total'] ?? 0;
+
+$utilities = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT SUM(amount) AS total FROM expense WHERE user_id = '$user_id' and category='Utilities'")
+)['total'] ?? 0;
+
+$entertainment = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT SUM(amount) AS total FROM expense WHERE user_id = '$user_id' and category='Entertainment'")
+)['total'] ?? 0;
+
+$foodPercent = $totalExpense ? ($food / $totalExpense) * 100 : 0;
+$travelPercent = $totalExpense ? ($travel / $totalExpense) * 100 : 0;
+$utilitiesPercent = $totalExpense ? ($utilities / $totalExpense) * 100 : 0;
+$entertainmentPercent = $totalExpense ? ($entertainment / $totalExpense) * 100 : 0;
 ?>
 
 <!DOCTYPE html>
@@ -133,16 +160,46 @@ $result = mysqli_query($conn, $sql);
                     <h3>Budget health</h3>
                     <div class="progress-list">
                         <div class="progress-row">
-                            <div class="page-header"><strong>Housing</strong><span>82%</span></div>
-                            <div class="progress-bar"><span style="width:82%"></span></div>
+                            <div class="page-header">
+                                <strong>Food</strong>
+                                <span><?= round($foodPercent) ?>%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <span style="width:<?= $foodPercent ?>%"></span>
+                            </div>
                         </div>
                         <div class="progress-row">
-                            <div class="page-header"><strong>Food</strong><span>58%</span></div>
-                            <div class="progress-bar"><span style="width:58%"></span></div>
+                            <div class="progress-row">
+                                <div class="page-header">
+                                    <strong>Travel</strong>
+                                    <span><?= round($travelPercent) ?>%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span style="width:<?= $travelPercent ?>%"></span>
+                                </div>
+                            </div>
                         </div>
                         <div class="progress-row">
-                            <div class="page-header"><strong>Fun</strong><span>35%</span></div>
-                            <div class="progress-bar"><span style="width:35%"></span></div>
+                            <div class="progress-row">
+                                <div class="page-header">
+                                    <strong>Utilities</strong>
+                                    <span><?= round($utilitiesPercent) ?>%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span style="width:<?= $utilitiesPercent ?>%"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-row">
+                            <div class="progress-row">
+                                <div class="page-header">
+                                    <strong>Entertainment</strong>
+                                    <span><?= round($entertainmentPercent) ?>%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span style="width:<?= $entertainmentPercent ?>%"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
